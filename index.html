@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.panzoom/3.2.3/jquery.panzoom.js"></script> -->
+    <script src="jquery.flowchart.js"></script>
+    <script src="flowInit.js"></script>
+    <script src="./panzoom/dist/panzoom.js"></script>
+    <link rel="stylesheet" href="jquery.flowchart.css" />
+    <style>
+      .container_parent {
+        height: 50%;
+      }
+      .container {
+        height: 2000px;
+        width: 3000px;
+        border: 2px solid yellow
+      }
+      .panzoom-parent {
+        position: relative;
+        overflow: hidden;
+        height: 100vh;
+      }
+      .elements {
+        width: 10rem;
+        height: 10rem;
+        background-color: black;
+      }
+    </style>
+  </head>
+  <!-- <body> -->
+  <body>
+    <!-- <div class="panzoom-parent"> -->
+      <div class="panzoom-parent">
+        <div id="panzoom-element" class="container example_1"></div>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("panzoom-element");
+      console.log(canvas.offsetWidth)
+      console.log(canvas.offsetHeight)
+      const panzoom = Panzoom(canvas, {
+        startScale: 1.5,
+        maxScale: 5,
+        contain: "outside"
+      });
+      panzoom.zoom(1, { animate: true });
+      panzoom.pan(200, 200);
+      canvas.addEventListener("wheel", panzoom.zoomWithWheel);
+
+      // Panning and pinch zooming are bound automatically (unless disablePan is true).
+      // There are several available methods for zooming
+      // that can be bound on button clicks or mousewheel.
+      button.addEventListener("click", panzoom.zoomIn);
+      canvas.parentElement.addEventListener("wheel", panzoom.zoomWithWheel);
+    </script>
+  </body>
+</html>
