@@ -5,7 +5,6 @@ $(document).ready(function() {
 
   var cx = $flowchart.width() / 2;
   var cy = $flowchart.height() / 2;
-
   var data = {
     operators: {
       operator1: {
@@ -103,31 +102,34 @@ $(document).ready(function() {
       var data = getOperatorData($this);
       return $flowchart.flowchart("getOperatorElement", data);
     },
-    // stop: function(e, ui) {
-    //   var $this = $(this);
-    //   var elOffset = ui.offset;
-    //   var containerOffset = $container.offset();
-    //   if (
-    //     elOffset.left > containerOffset.left &&
-    //     elOffset.top > containerOffset.top &&
-    //     elOffset.left < containerOffset.left + $container.width() &&
-    //     elOffset.top < containerOffset.top + $container.height()
-    //   ) {
-    //     var flowchartOffset = $flowchart.offset();
+    stop: function(e, ui) {
+      var $this = $(this);
+      console.log($this);
+      var elOffset = ui.offset;
+      var containerOffset = $container.offset();
+      if (
+        elOffset.left > containerOffset.left &&
+        elOffset.top > containerOffset.top &&
+        elOffset.left < containerOffset.left + $container.width() &&
+        elOffset.top < containerOffset.top + $container.height()
+      ) {
+        var flowchartOffset = $flowchart.offset();
 
-    //     var relativeLeft = elOffset.left - flowchartOffset.left;
-    //     var relativeTop = elOffset.top - flowchartOffset.top;
+        var relativeLeft = elOffset.left - flowchartOffset.left;
+        var relativeTop = elOffset.top - flowchartOffset.top;
 
-    //     var positionRatio = $flowchart.flowchart("getPositionRatio");
-    //     relativeLeft /= positionRatio;
-    //     relativeTop /= positionRatio;
+        var scaleRatio = $flowchart.flowchart("getScaleRatio");
+        console.log(scaleRatio, '=========')
+        relativeLeft /= scaleRatio;
+        relativeTop /= scaleRatio;
 
-    //     var data = getOperatorData($this);
-    //     data.left = relativeLeft;
-    //     data.top = relativeTop;
+        var data = getOperatorData($this);
+        console.log(data);
+        data.left = relativeLeft;
+        data.top = relativeTop;
 
-    //     $flowchart.flowchart("addOperator", data);
-    //   }
-    // }
+        $flowchart.flowchart("addOperator", data);
+      }
+    }
   });
 });

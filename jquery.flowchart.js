@@ -362,6 +362,8 @@ $(function() {
     },
 
     getConnectorPosition: function(operatorId, connectorId, subConnector) {
+      const scaleRatio = this.getScaleRatio();
+      console.log(scaleRatio);
       var operatorData = this.data.operators[operatorId];
       var $connector =
         operatorData.internal.els.connectorArrows[connectorId][subConnector];
@@ -369,10 +371,10 @@ $(function() {
       var connectorOffset = $connector.offset();
       var elementOffset = this.element.offset();
 
-      var x = (connectorOffset.left - elementOffset.left) / this.positionRatio;
+      var x = (connectorOffset.left - elementOffset.left) / 1;
       var width = parseInt($connector.css("border-top-width"));
       var y =
-        (connectorOffset.top - elementOffset.top - 1) / this.positionRatio +
+        (connectorOffset.top - elementOffset.top - 1) / 1 +
         parseInt($connector.css("border-left-width"));
 
       return { x: x, width: width, y: y };
@@ -525,20 +527,15 @@ $(function() {
         toSubConnector
       );
 
-      // calculate new scale ratio when zooming
-      const re2 = /\(([^)]+)\)/g;
-      var panzoomElemCssTransformString = this.panzoomElem.style.transform;
-      var newScaleRatio = re2.exec(panzoomElemCssTransformString)[1];
-      console.log(this);
-      this.scaleRatio = newScaleRatio;
+      const scaleRatio = this.getScaleRatio();
 
       // rescale svg path accordingly
-      var fromX = fromPosition.x / this.scaleRatio;
+      var fromX = fromPosition.x / scaleRatio;
       var offsetFromX = fromPosition.width;
-      var fromY = fromPosition.y / this.scaleRatio;
+      var fromY = fromPosition.y / scaleRatio;
 
-      var toX = toPosition.x / this.scaleRatio;
-      var toY = toPosition.y / this.scaleRatio;
+      var toX = toPosition.x / scaleRatio;
+      var toY = toPosition.y / scaleRatio;
 
       fromY += this.options.linkVerticalDecal;
       toY += this.options.linkVerticalDecal;
@@ -829,6 +826,7 @@ $(function() {
             : this.element,
           handle: ".flowchart-operator-title",
           start: function(e, ui) {
+            const scaleRatio = self.getScaleRatio();
             console.log("FN: operatorChangePosition.start");
             if (self.lastOutputConnectorClicked != null) {
               e.preventDefault();
@@ -836,39 +834,24 @@ $(function() {
             }
             var elementOffset = self.element.offset();
             pointerX =
-              (e.pageX - elementOffset.left) / self.scaleRatio -
+              (e.pageX - elementOffset.left) / scaleRatio -
               parseInt($(e.target).css("left"));
             pointerY =
-              (e.pageY - elementOffset.top) / self.scaleRatio -
+              (e.pageY - elementOffset.top) / scaleRatio -
               parseInt($(e.target).css("top"));
           },
           drag: function(e, ui) {
             console.log("FN: operatorChangePosition.drag");
+            const scaleRatio = self.getScaleRatio();
             if (self.options.grid) {
               var grid = self.options.grid;
               var elementOffset = self.element.offset();
               ui.position.left = Math.round(
-                (e.pageX - elementOffset.left) / self.scaleRatio
+                (e.pageX - elementOffset.left) / scaleRatio
               );
-              //     pointerX) /
-              //     self.scaleRatio
-              // ) * self.scaleRatio;
               ui.position.top = Math.round(
-                (e.pageY - elementOffset.top) / self.scaleRatio
+                (e.pageY - elementOffset.top) / scaleRatio
               );
-              //   - pointerY) /
-              //     self.scaleRatio
-              // ) * self.scaleRatio;
-              console.log("=====================");
-              console.log("grid: ", grid);
-              console.log("elementOffset: ", elementOffset);
-              console.log("self.positionRatio: ", self.positionRatio);
-              console.log("self.scaleRatio: ", self.scaleRatio);
-              console.log("pointerX ", pointerX);
-              console.log("pointerY ", pointerY);
-              console.log("ui.position.left: ", ui.position.left);
-              console.log("ui.position.top: ", ui.position.top);
-              console.log("=====================");
 
               if (!operatorData.internal.properties.uncontained) {
                 var $this = $(this);
@@ -894,6 +877,7 @@ $(function() {
             operatorChangedPosition($(this).data("operator_id"), ui.position);
           },
           stop: function(e, ui) {
+            console.log("STOP");
             // self._unsetTemporaryLink();
             // var operatorId = $(this).data("operator_id");
             // operatorChangedPosition(operatorId, ui.position);
@@ -930,8 +914,17 @@ $(function() {
           connector,
           subConnector
         );
-        var x = position.x + position.width;
-        var y = position.y;
+        // var x = position.x + position.width;
+        // var y = position.y;
+
+        var x = position.x / this.getScaleRatio();
+        var y = position.y / this.getScaleRatio();
+
+        // var x = position.x;
+        // var y = position.y;
+        console.log("position", position);
+        console.log("x: ", x);
+        console.log("y: ", y);
         this.objs.temporaryLink.setAttribute("x1", x.toString());
         this.objs.temporaryLink.setAttribute("y1", y.toString());
         this._mousemove(x, y);
@@ -961,8 +954,12 @@ $(function() {
 
     _mousemove: function(x, y, e) {
       if (this.lastOutputConnectorClicked != null) {
-        this.objs.temporaryLink.setAttribute("x2", x);
-        this.objs.temporaryLink.setAttribute("y2", y);
+        const scaledX = x / this.getScaleRatio();
+        const scaledY = y / this.getScaleRatio();
+        console.log("x2: ", x);
+        console.log("y2: ", y);
+        this.objs.temporaryLink.setAttribute("x2", scaledX);
+        this.objs.temporaryLink.setAttribute("y2", scaledY);
       }
     },
 
@@ -1259,6 +1256,13 @@ $(function() {
 
     getPositionRatio: function() {
       return this.positionRatio;
+    },
+
+    getScaleRatio: function() {
+      const re2 = /\(([^)]+)\)/g;
+      var panzoomElemCssTransformString = this.panzoomElem.style.transform;
+      var scaleRatio = re2.exec(panzoomElemCssTransformString)[1];
+      return scaleRatio;
     },
 
     getData: function() {
