@@ -5,34 +5,6 @@ $(document).ready(function() {
 
   var cx = $flowchart.width() / 2;
   var cy = $flowchart.height() / 2;
-  // Panzoom initialization...
-//   $flowchart.panzoom();
-
-//   // Centering panzoom
-//   $flowchart.panzoom(
-//     "pan",
-//     -cx + $container.width() / 2,
-//     -cy + $container.height() / 2
-//   );
-
-//   // Panzoom zoom handling...
-//   var possibleZooms = [0.5, 0.75, 1, 2, 3];
-//   var currentZoom = 2;
-//   $container.on("mousewheel.focal", function(e) {
-//     console.log("ee");
-//     e.preventDefault();
-//     var delta = e.delta || e.originalEvent.wheelDelta || e.originalEvent.detail;
-//     var zoomOut = delta ? delta < 0 : e.originalEvent.deltaY > 0;
-//     currentZoom = Math.max(
-//       0,
-//       Math.min(possibleZooms.length - 1, currentZoom + (zoomOut * 2 - 1))
-//     );
-//     $flowchart.flowchart("setPositionRatio", possibleZooms[currentZoom]);
-//     $flowchart.panzoom("zoom", possibleZooms[currentZoom], {
-//       animate: false,
-//       focal: e
-//     });
-//   });
 
   var data = {
     operators: {
@@ -131,31 +103,31 @@ $(document).ready(function() {
       var data = getOperatorData($this);
       return $flowchart.flowchart("getOperatorElement", data);
     },
-    stop: function(e, ui) {
-      var $this = $(this);
-      var elOffset = ui.offset;
-      var containerOffset = $container.offset();
-      if (
-        elOffset.left > containerOffset.left &&
-        elOffset.top > containerOffset.top &&
-        elOffset.left < containerOffset.left + $container.width() &&
-        elOffset.top < containerOffset.top + $container.height()
-      ) {
-        var flowchartOffset = $flowchart.offset();
+    // stop: function(e, ui) {
+    //   var $this = $(this);
+    //   var elOffset = ui.offset;
+    //   var containerOffset = $container.offset();
+    //   if (
+    //     elOffset.left > containerOffset.left &&
+    //     elOffset.top > containerOffset.top &&
+    //     elOffset.left < containerOffset.left + $container.width() &&
+    //     elOffset.top < containerOffset.top + $container.height()
+    //   ) {
+    //     var flowchartOffset = $flowchart.offset();
 
-        var relativeLeft = elOffset.left - flowchartOffset.left;
-        var relativeTop = elOffset.top - flowchartOffset.top;
+    //     var relativeLeft = elOffset.left - flowchartOffset.left;
+    //     var relativeTop = elOffset.top - flowchartOffset.top;
 
-        var positionRatio = $flowchart.flowchart("getPositionRatio");
-        relativeLeft /= positionRatio;
-        relativeTop /= positionRatio;
+    //     var positionRatio = $flowchart.flowchart("getPositionRatio");
+    //     relativeLeft /= positionRatio;
+    //     relativeTop /= positionRatio;
 
-        var data = getOperatorData($this);
-        data.left = relativeLeft;
-        data.top = relativeTop;
+    //     var data = getOperatorData($this);
+    //     data.left = relativeLeft;
+    //     data.top = relativeTop;
 
-        $flowchart.flowchart("addOperator", data);
-      }
-    }
+    //     $flowchart.flowchart("addOperator", data);
+    //   }
+    // }
   });
 });

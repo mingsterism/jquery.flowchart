@@ -1,0 +1,192 @@
+.rectangle {
+  width: 200px;
+  height: 30px;
+  position: relative;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chartContainer {
+  display: grid;
+  grid-template-columns: 10fr 2fr;
+  border: 3px solid black;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.flowchart-operator .small_circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: block;
+}
+
+.centerText {
+  width: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.flowchart-span-title {
+  width: 100%;
+  word-break: break-all;
+  font-size: 0.8em;
+  line-height: 12px;
+  vertical-align: -webkit-baseline-middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: black;
+}
+
+.flowchart-operator-inputs-outputs-circle {
+  /* position: absolute;
+  top: 35%; */
+}
+
+.diamond-title-height {
+  height: 30px;
+}
+
+.connector-arrow {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid green;
+}
+
+.decider-container {
+  width: 300px;
+  height: 300px;
+}
+
+/*  new css for flowchart nodes */
+.pointer {
+  cursor: pointer;
+}
+
+.icon_align_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sideBar {
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  box-sizing: border-box;
+}
+.top-bottom-margin-10 {
+  margin: 30px 0px 10px 0px;
+}
+.assignee_activities {
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+}
+
+.nodeText {
+  align-items: center;
+  display: flex;
+  padding: 0 15px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 0.5fr 4fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: ". .";
+}
+.node {
+  height: 35px;
+  background: #ffffff;
+  border: 1px solid #eeeeee;
+  box-sizing: border-box;
+  border-radius: 5px;
+  margin: 8px;
+}
+.nodeSearchInput {
+  width: 100%;
+  height: 44px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  box-sizing: border-box;
+  border-radius: 30px;
+  margin: 0 0 20px 0;
+  padding: 19px 0px 19px 14px;
+}
+.nodesContainer {
+  padding: 20px 32px 0 32px;
+}
+
+.text {
+  font-family: Roboto;
+  font-style: normal;
+  display: flex;
+  align-items: center;
+}
+
+.autoGenDocText,
+.taskInfoText {
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  letter-spacing: 0.01em;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 0.4fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: ". .";
+}
+
+.activity-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.titleContainer {
+  width: 100%;
+  background-color: white;
+  height: 75px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: ". .";
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.titleText {
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  letter-spacing: 0.044em;
+}
+
+.process {
+  display: flex;
+  align-items: center;
+}
+
+.processContainer {
+  background: #ffffff;
+  width: 550px;
+  height: 50px;
+  border: 1px solid #eeeeee;
+  box-sizing: border-box;
+  border-radius: 30px;
+}

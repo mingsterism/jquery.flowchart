@@ -135,8 +135,8 @@ $(function() {
         var $this = $(this);
         var offset = $this.offset();
         self._mousemove(
-          (e.pageX - offset.left) / self.positionRatio,
-          (e.pageY - offset.top) / self.positionRatio,
+          (e.pageX - offset.left) / self.scaleRatio,
+          (e.pageY - offset.top) / self.scaleRatio,
           e
         );
       });
@@ -145,8 +145,8 @@ $(function() {
         var $this = $(this);
         var offset = $this.offset();
         self._click(
-          (e.pageX - offset.left) / self.positionRatio,
-          (e.pageY - offset.top) / self.positionRatio,
+          (e.pageX - offset.left) / self.scaleRatio,
+          (e.pageY - offset.top) / self.scaleRatio,
           e
         );
       });
@@ -836,10 +836,10 @@ $(function() {
             }
             var elementOffset = self.element.offset();
             pointerX =
-              (e.pageX - elementOffset.left) / self.positionRatio -
+              (e.pageX - elementOffset.left) / self.scaleRatio -
               parseInt($(e.target).css("left"));
             pointerY =
-              (e.pageY - elementOffset.top) / self.positionRatio -
+              (e.pageY - elementOffset.top) / self.scaleRatio -
               parseInt($(e.target).css("top"));
           },
           drag: function(e, ui) {
@@ -847,18 +847,29 @@ $(function() {
             if (self.options.grid) {
               var grid = self.options.grid;
               var elementOffset = self.element.offset();
-              ui.position.left =
-                Math.round(
-                  ((e.pageX - elementOffset.left) / self.positionRatio -
-                    pointerX) /
-                    grid
-                ) * grid;
-              ui.position.top =
-                Math.round(
-                  ((e.pageY - elementOffset.top) / self.positionRatio -
-                    pointerY) /
-                    grid
-                ) * grid;
+              ui.position.left = Math.round(
+                (e.pageX - elementOffset.left) / self.scaleRatio
+              );
+              //     pointerX) /
+              //     self.scaleRatio
+              // ) * self.scaleRatio;
+              ui.position.top = Math.round(
+                (e.pageY - elementOffset.top) / self.scaleRatio
+              );
+              //   - pointerY) /
+              //     self.scaleRatio
+              // ) * self.scaleRatio;
+              console.log("=====================");
+              console.log("grid: ", grid);
+              console.log("elementOffset: ", elementOffset);
+              console.log("self.positionRatio: ", self.positionRatio);
+              console.log("self.scaleRatio: ", self.scaleRatio);
+              console.log("pointerX ", pointerX);
+              console.log("pointerY ", pointerY);
+              console.log("ui.position.left: ", ui.position.left);
+              console.log("ui.position.top: ", ui.position.top);
+              console.log("=====================");
+
               if (!operatorData.internal.properties.uncontained) {
                 var $this = $(this);
                 ui.position.left = Math.min(
@@ -883,20 +894,20 @@ $(function() {
             operatorChangedPosition($(this).data("operator_id"), ui.position);
           },
           stop: function(e, ui) {
-            self._unsetTemporaryLink();
-            var operatorId = $(this).data("operator_id");
-            operatorChangedPosition(operatorId, ui.position);
-            fullElement.operator.css({
-              height: "auto"
-            });
+            // self._unsetTemporaryLink();
+            // var operatorId = $(this).data("operator_id");
+            // operatorChangedPosition(operatorId, ui.position);
+            // fullElement.operator.css({
+            //   height: "auto"
+            // });
 
-            self.callbackEvent("operatorMoved", [operatorId, ui.position]);
-            self.callbackEvent("afterChange", ["operator_moved"]);
+            // self.callbackEvent("operatorMoved", [operatorId, ui.position]);
+            // self.callbackEvent("afterChange", ["operator_moved"]);
           }
         });
       }
 
-      this.callbackEvent("afterChange", ["operator_create"]);
+      // this.callbackEvent("afterChange", ["operator_create"]);
     },
 
     _connectorClicked: function(
